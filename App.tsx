@@ -1,28 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { rootReducer } from './store/rootReducer';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Home from './pages/Home';
+import Detail from './pages/Detail';
 
 const store = createStore(rootReducer);
+const Stack = createStackNavigator();
 
 export default function App() {
     return (
         <Provider store={store}>
-            <View style={styles.container}>
-                <Text>Open up App.tsx to start working on your app!</Text>
-                <StatusBar style="auto" />
-            </View>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name="Home"
+                        component={Home}
+                        options={({
+                            title: 'Todos',
+                            headerTitleStyle: {
+                                alignSelf: 'center',
+                                fontWeight: '500',
+                                fontSize: 20,
+                            },
+                        })}
+                    ></Stack.Screen>
+
+                    <Stack.Screen
+                        name="Detail"
+                        component={Detail}
+                    ></Stack.Screen>
+                </Stack.Navigator>
+            </NavigationContainer>
         </Provider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
